@@ -61,7 +61,7 @@
           class="hero-text"
         >
           <h1 class="display-3 font-weight-thin mb-3">RabiBot</h1>
-          <h4 class="title text-xs-center">The easy way to run and manage EJSCREEN reports.</h4>
+          <h4 class="title text-xs-center">The easy way to generate and manage EJSCREEN reports.</h4>
         </v-layout>
       </v-parallax>
       <v-container>
