@@ -14,9 +14,9 @@
         <v-text-field
           v-model="lat"
           :rules="[
-            rules.required(this.lat, 'lattitude'),
+            rules.required(lat, 'lattitude'),
             rules.number,
-            rules.range(this.lat, 'lattitude', -90, 90)
+            rules.range(lat, 'lattitude', -90, 90)
           ]"
           label="lattitude"
         ></v-text-field>
@@ -30,9 +30,9 @@
         <v-text-field
           v-model="long"
           :rules="[
-            rules.required(this.long, 'longitude'),
+            rules.required(long, 'longitude'),
             rules.number,
-            rules.range(this.long, 'longitude', -180, 180)
+            rules.range(long, 'longitude', -180, 180)
           ]"
           label="longitude"
         ></v-text-field>
