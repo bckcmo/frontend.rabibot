@@ -1,6 +1,6 @@
 # rabibot
 
-> EJSCREEN made easy.
+The frontend for Rabibot. Built with Nuxt.js and Vuetify.
 
 ## Build Setup
 
