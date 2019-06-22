@@ -41,6 +41,8 @@ export default {
   */
   modules: [
     '@nuxtjs/vuetify',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** vuetify module configuration
@@ -55,6 +57,21 @@ export default {
       warning: colors.amber.base,
       error: colors.deepOrange.accent4,
       success: colors.green.accent3
+    }
+  },
+  axios: {
+    baseURL: 'http://127.0.0.1:5000/api'
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: 'login', method: 'post', propertyName: 'data.access_token' },
+          user: { url: 'me', method: 'get', propertyName: 'data' },
+          logout: false
+        }
+      }
     }
   },
   /*

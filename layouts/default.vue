@@ -12,6 +12,7 @@
           :to="item.to"
           router
           exact
+          v-if="!item.checkAuth || isAuthenticated"
         >
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -32,18 +33,21 @@
       <v-btn
         icon
         to="/register"
+        v-if="!isAuthenticated"
       >
         <v-icon title="register">person_add</v-icon>
       </v-btn>
       <v-btn
         icon
         to="/login"
+        v-if="!isAuthenticated"
       >
         <v-icon title="login">exit_to_app</v-icon>
       </v-btn>
       <v-btn
         icon
         @click="logout"
+        v-if="isAuthenticated"
       >
         <v-icon title="logout">power_settings_new</v-icon>
       </v-btn>
@@ -93,6 +97,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -101,17 +107,20 @@ export default {
         {
           icon: 'home',
           title: 'Home',
-          to: '/'
+          to: '/',
+          checkAuth: false
         },
         {
           icon: 'list_alt',
           title: 'My Screens',
-          to: '/screens'
+          to: '/screens',
+          checkAuth: true
         },
         {
           icon: 'add_circle_outline',
           title: 'New Screen',
-          to: '/screens/new'
+          to: '/screens/new',
+          checkAuth: true
         }
       ],
       miniVariant: false,
@@ -121,10 +130,13 @@ export default {
     }
   },
   methods: {
-    logout() {
-      alert('logout');
-    }
-  }
+    async logout() {
+      await this.$auth.logout();
+    },
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
 }
 </script>
 
