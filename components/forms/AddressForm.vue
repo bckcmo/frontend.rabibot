@@ -3,6 +3,13 @@
     v-model="valid"
     ref="form"
   >
+    <v-alert
+      v-for="error in errors"
+      :value="error"
+      type="error"
+    >
+      {{error}}
+    </v-alert>
     <v-text-field
       v-model="street"
       :rules="[rules.required(street, 'street address')]"
@@ -63,12 +70,29 @@ export default {
       state: '',
       zip: '',
       rules: rules,
-      states: data.states
+      states: data.states,
+      errors: []
     }
   },
   methods: {
-    submit() {
+    async submit() {
       this.$refs.form.validate();
+      this.errors = [];
+
+      try {
+        await this.$axios.post('screens', {
+          address: this.street,
+          city: this.city,
+          state: this.state,
+          zip: this.zip,
+          isGeocoded: false,
+        });
+      } catch (e) {
+        let errors = e.response.data.data;
+        for(let error in errors) {
+          this.errors.push(errors[error][0]);
+        }
+      }
     }
   }
 }

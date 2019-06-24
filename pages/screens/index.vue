@@ -56,55 +56,28 @@ export default {
     formatDate(screenDate) {
       return new Date(screenDate).toLocaleDateString('en-US');
     },
-    deleteItem (item) {
-      const index = this.screens.indexOf(item);
-      confirm('Are you sure you want to delete this item?') && this.screens.splice(index, 1);
+    async deleteItem (item) {
+      const location = `${item.address} ${item.city}, ${item.state} ${item.zip}`
+      if(confirm(`Are you sure you want to delete the screen for ${location}?`)) {
+        try {
+          await this.$axios.delete(`screens/${item.id}`);
+          this.screens.splice(this.screens.indexOf(item), 1);
+        } catch(e) {
+          alert(`There was an issue deleting the screen for ${location}. Please try agian.`)
+        }
+
+      }
     },
   },
-  created: function() {
-    let response = {
-      "success": true,
-      "data": {
-        "screens": [
-          {
-            "id": 6,
-            "address": "6675 W 119th St",
-            "city": "Overland Park",
-            "state": "Kansas",
-            "zip": "66209",
-            "one_mile_report": "https://ejscreen.epa.gov/mapper/EJSCREEN_report.aspx?geometry={\"x\":94.6621744,\"y\":38.9123661,\"spatialReference\":{\"wkid\":4326}}&distance=1&unit=9035&areatype=blockgroup&areaid=&f=report",
-            "blockgroup_report": "https://ejscreen.epa.gov/mapper/EJSCREEN_report.aspx?geometry=&distance=&unit=9035&areatype=blockgroup&areaid=200910532011&f=report",
-            "ej_result": 1,
-            "user_id": 5,
-            "created_at": "2019-06-10 18:44:35",
-            "updated_at": "2019-06-10 18:44:35",
-            "notes": "These are sample notes for screen with id 7"
-          },
-          {
-            "id": 7,
-            "address": "6675 W 119th St",
-            "city": "Overland Park",
-            "state": "Kansas",
-            "zip": "66209",
-            "one_mile_report": "https://ejscreen.epa.gov/mapper/EJSCREEN_report.aspx?geometry={\"x\":94.6621744,\"y\":38.9123661,\"spatialReference\":{\"wkid\":4326}}&distance=1&unit=9035&areatype=blockgroup&areaid=&f=report",
-            "blockgroup_report": "https://ejscreen.epa.gov/mapper/EJSCREEN_report.aspx?geometry=&distance=&unit=9035&areatype=blockgroup&areaid=200910532011&f=report",
-            "ej_result": 0,
-            "user_id": 5,
-            "created_at": "2019-05-10 18:44:53",
-            "updated_at": "2019-06-10 18:44:53",
-            "notes": "These are sample notes for screen with id 7"
-          }
-        ]
-      },
-      "message": "2 screens found"
-    };
-
-    if(response.success) {
-      this.screens = response.data.screens
+  created: async function() {
+    try {
+      let response = await this.$axios.get('screens');
+      if(response.data.success) {
+        this.screens = response.data.data.screens;
+      }
+    } catch (e) {
+      console.log(e.response);
     }
-
-    console.log(this.screens);
-
   }
 }
 </script>

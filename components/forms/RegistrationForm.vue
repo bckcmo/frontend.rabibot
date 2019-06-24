@@ -70,18 +70,17 @@ export default {
           email: this.email,
           password: this.password,
           password_confirmation: this.cPassword,
-        })
+        });
 
         await this.$auth.loginWith('local', {
           data: {
             email: this.email,
             password: this.password,
           },
-        })
+        });
 
         this.$router.push('/screens')
       } catch (e) {
-        console.log(e.response);
         let errors = e.response.data.data;
         for(let error in errors) {
           this.errors.push(errors[error][0]);

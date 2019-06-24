@@ -58,7 +58,6 @@ export default {
 
         this.$router.push('/screens')
       } catch (e) {
-        console.log(e.response);
         let errors = e.response.data.data;
         for(let error in errors) {
           this.errors.push(errors[error][0]);

@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import rules from '~/utils/rules.js';
 import AddressForm from '~/components/forms/AddressForm.vue';
 import GpsForm from '~/components/forms/GpsForm.vue';
 
@@ -32,14 +31,6 @@ export default {
     return {
       isGeocoded: 'false',
     }
-  },
-  methods: {
-    submit() {
-      this.$refs.form.validate();
-    }
   }
 }
 </script>
-
-<style lang="css" scoped>
-</style>
