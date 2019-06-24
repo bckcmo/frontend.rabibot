@@ -17,6 +17,13 @@
         <td class="text-xs-center px-0 px-0">
           <v-icon
             small
+            @click="emailItem(props.item)"
+            class="mr-2"
+          >
+            email
+          </v-icon>
+          <v-icon
+            small
             @click="deleteItem(props.item)"
           >
             delete
@@ -28,9 +35,11 @@
 </template>
 
 <script>
-import NotesDialog from '~/components/dialogs/NotesDialog.vue'
+import { mapGetters } from 'vuex';
+import NotesDialog from '~/components/dialogs/NotesDialog.vue';
 
 export default {
+  middleware: 'authenticated',
   components: {
     NotesDialog,
   },
@@ -52,11 +61,14 @@ export default {
       ],
     }
   },
+  computed: {
+    ...mapGetters(['loggedInUser'])
+  },
   methods: {
     formatDate(screenDate) {
       return new Date(screenDate).toLocaleDateString('en-US');
     },
-    async deleteItem (item) {
+    async deleteItem(item) {
       const location = `${item.address} ${item.city}, ${item.state} ${item.zip}`
       if(confirm(`Are you sure you want to delete the screen for ${location}?`)) {
         try {
@@ -66,6 +78,19 @@ export default {
           alert(`There was an issue deleting the screen for ${location}. Please try agian.`)
         }
 
+      }
+    },
+    async emailItem(item) {
+      const location = `${item.address} ${item.city}, ${item.state} ${item.zip}`
+      // TODO: Instead of alert, this should be done in a dialog
+      if(confirm(`Are you sure you want to email the screen for ${location} to ${this.loggedInUser.email}?`)) {
+        try {
+          await this.$axios.post(`screens/email/${item.id}`);
+          this.screens.splice(this.screens.indexOf(item), 1);
+          alert(`An email was sent to ${this.loggedInUser.email}!`)
+        } catch(e) {
+          alert(`There was an issue emailing the screen for ${location}. Please try agian.`);
+        }
       }
     },
   },
@@ -78,7 +103,7 @@ export default {
     } catch (e) {
       console.log(e.response);
     }
-  }
+  },
 }
 </script>
 

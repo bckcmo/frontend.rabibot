@@ -23,6 +23,7 @@ import AddressForm from '~/components/forms/AddressForm.vue';
 import GpsForm from '~/components/forms/GpsForm.vue';
 
 export default {
+  middleware: 'authenticated',
   components: {
     AddressForm,
     GpsForm,
