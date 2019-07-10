@@ -69,7 +69,7 @@ export default {
       return new Date(screenDate).toLocaleDateString('en-US');
     },
     async deleteItem(item) {
-      const location = `${item.address} ${item.city}, ${item.state} ${item.zip}`
+      const location = this.formatLocation(item);
       if(confirm(`Are you sure you want to delete the screen for ${location}?`)) {
         try {
           await this.$axios.delete(`screens/${item.id}`);
@@ -77,11 +77,10 @@ export default {
         } catch(e) {
           alert(`There was an issue deleting the screen for ${location}. Please try agian.`)
         }
-
       }
     },
     async emailItem(item) {
-      const location = `${item.address} ${item.city}, ${item.state} ${item.zip}`
+      const location = this.formatLocation(item);
       // TODO: Instead of alert, this should be done in a dialog
       if(confirm(`Are you sure you want to email the screen for ${location} to ${this.loggedInUser.email}?`)) {
         try {
@@ -93,6 +92,9 @@ export default {
         }
       }
     },
+    formatLocation(item) {
+      return `${item.address} ${item.city}, ${item.state} ${item.zip}`;
+    },
   },
   created: async function() {
     try {
@@ -101,6 +103,7 @@ export default {
         this.screens = response.data.data.screens;
       }
     } catch (e) {
+      // TODO: display an error to the user rather than just logging to console
       console.log(e.response);
     }
   },

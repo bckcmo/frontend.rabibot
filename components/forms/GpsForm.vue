@@ -4,8 +4,14 @@
     ref="form"
     v-else
   >
+    <v-alert
+      v-for="error in errors"
+      :value="error"
+      type="error"
+    >
+      {{error}}
+    </v-alert>
     <v-layout row wrap>
-
       <v-flex
         xs12
         md6
@@ -55,11 +61,28 @@ export default {
       lat: '',
       long: '',
       rules: rules,
+      errors: []
     }
   },
   methods: {
-    submit() {
+    async submit() {
       this.$refs.form.validate();
+      this.errors = [];
+
+      try {
+        let response = await this.$axios.post('screens', {
+          lat: this.lat,
+          lng: this.long,
+          isGeocoded: true,
+        });
+        console.log(response);
+      } catch (e) {
+        let errors = e.response.data.data;
+        console.log(e);
+        for(let error in errors) {
+          this.errors.push(errors[error][0]);
+        }
+      }
     }
   }
 }
