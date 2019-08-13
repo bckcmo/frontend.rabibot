@@ -41,7 +41,6 @@ export default {
   data() {
     return {
       isGeocoded: 'false',
-      isLoading: false,
       result: null,
     }
   },

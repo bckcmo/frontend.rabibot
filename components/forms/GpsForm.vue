@@ -55,7 +55,6 @@ import rules from '~/utils/rules.js';
 export default {
   props: {
     isGeocoded: Boolean,
-    isLoading: Boolean,
   },
   data() {
     return {
@@ -77,7 +76,6 @@ export default {
           lat: this.lat,
           lng: this.long,
           isGeocoded: true,
-          loading: true,
         });
         this.$emit('update:result', {ej_result: res.data.data.ej_result, address: `${this.lat}, ${this.long}`});
       } catch (e) {
