@@ -48,6 +48,7 @@ export default {
     async login() {
       this.$refs.form.validate();
       this.errors = [];
+      this.valid = false;
       this.$nuxt.$loading.start();
 
       try {
@@ -60,6 +61,7 @@ export default {
 
         this.$router.push('/screens');
       } catch (e) {
+        this.valid = true;
         let errors = e.response.data.data;
         for(let error in errors) {
           this.errors.push({key: error, message: errors[error][0]});

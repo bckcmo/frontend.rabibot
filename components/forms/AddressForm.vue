@@ -79,6 +79,7 @@ export default {
     async submit() {
       this.$refs.form.validate();
       this.errors = [];
+      this.valid = false;
       this.$nuxt.$loading.start();
 
       try {
@@ -96,6 +97,7 @@ export default {
         });
       } catch (e) {
         let errors = e.response.data.data;
+        this.valid = true;
         for(let error in errors) {
           this.errors.push({key: error, message: errors[error][0]});
         }

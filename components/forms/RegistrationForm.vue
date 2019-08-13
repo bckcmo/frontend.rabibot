@@ -66,6 +66,7 @@ export default {
       this.$refs.form.validate();
       this.errors = [];
       this.$nuxt.$loading.start();
+      this.valid = false;
 
       try {
         await this.$axios.post('register', {
@@ -85,6 +86,7 @@ export default {
 
         this.$router.push('/screens')
       } catch (e) {
+        this.valid = true;
         let errors = e.response.data.data;
         for(let error in errors) {
           this.errors.push({key: error, message: errors[error][0]});
