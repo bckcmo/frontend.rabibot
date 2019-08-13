@@ -5,10 +5,11 @@
   >
     <v-alert
       v-for="error in errors"
-      :value="error"
+      :value="error.message"
+      :key="error.key"
       type="error"
     >
-      {{error}}
+      {{error.message}}
     </v-alert>
     <v-text-field
       v-model="email"
@@ -64,6 +65,7 @@ export default {
     async register() {
       this.$refs.form.validate();
       this.errors = [];
+      this.$nuxt.$loading.start();
 
       try {
         await this.$axios.post('register', {
@@ -79,11 +81,13 @@ export default {
           },
         });
 
+        this.$nuxt.$loading.finish();
+
         this.$router.push('/screens')
       } catch (e) {
         let errors = e.response.data.data;
         for(let error in errors) {
-          this.errors.push(errors[error][0]);
+          this.errors.push({key: error, message: errors[error][0]});
         }
       }
     }

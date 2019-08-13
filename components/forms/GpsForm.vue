@@ -6,10 +6,11 @@
   >
     <v-alert
       v-for="error in errors"
-      :value="error"
+      :value="error.message"
+      :key="error.key"
       type="error"
     >
-      {{error}}
+      {{error.message}}
     </v-alert>
     <v-layout row wrap>
       <v-flex
@@ -54,6 +55,7 @@ import rules from '~/utils/rules.js';
 export default {
   props: {
     isGeocoded: Boolean,
+    isLoading: Boolean,
   },
   data() {
     return {
@@ -68,21 +70,24 @@ export default {
     async submit() {
       this.$refs.form.validate();
       this.errors = [];
+      this.$nuxt.$loading.start();
 
       try {
-        let response = await this.$axios.post('screens', {
+        let res = await this.$axios.post('screens', {
           lat: this.lat,
           lng: this.long,
           isGeocoded: true,
+          loading: true,
         });
-        console.log(response);
+        this.$emit('update:result', {ej_result: res.data.data.ej_result, address: `${this.lat}, ${this.long}`});
       } catch (e) {
         let errors = e.response.data.data;
-        console.log(e);
         for(let error in errors) {
-          this.errors.push(errors[error][0]);
+          this.errors.push({key: error, message: errors[error][0]});
         }
       }
+
+      this.$nuxt.$loading.finish();
     }
   }
 }

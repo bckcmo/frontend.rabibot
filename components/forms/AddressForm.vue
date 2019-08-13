@@ -5,10 +5,11 @@
   >
     <v-alert
       v-for="error in errors"
-      :value="error"
+      :value="error.message"
+      :key="error.key"
       type="error"
     >
-      {{error}}
+      {{error.message}}
     </v-alert>
     <v-text-field
       v-model="street"
@@ -78,21 +79,29 @@ export default {
     async submit() {
       this.$refs.form.validate();
       this.errors = [];
+      this.$nuxt.$loading.start();
 
       try {
-        await this.$axios.post('screens', {
+        let res = await this.$axios.post('screens', {
           address: this.street,
           city: this.city,
           state: this.state,
           zip: this.zip,
           isGeocoded: false,
         });
+
+        this.$emit('update:result', {
+          ej_result: res.data.data.ej_result,
+          address: `${this.street}, ${this.city}, ${this.state}, ${this.zip}`
+        });
       } catch (e) {
         let errors = e.response.data.data;
         for(let error in errors) {
-          this.errors.push(errors[error][0]);
+          this.errors.push({key: error, message: errors[error][0]});
         }
       }
+
+      this.$nuxt.$loading.finish();
     }
   }
 }

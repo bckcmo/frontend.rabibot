@@ -48,7 +48,6 @@
         this.item.notes = this.notes;
         try {
           let response = await this.$axios.put(`screens/${this.item.id}`, this.item);
-          console.log(response);
         } catch(e) {
           // TODO: need to display error message to user rather than just logging it
           console.log(e);
@@ -58,7 +57,6 @@
     mounted() {
       this.fullAddress = `${this.item.address} ${this.item.city}, ${this.item.state} ${this.item.zip}`;
       this.notes = this.item.notes;
-      console.log(this.item.notes);
     }
   }
 </script>
