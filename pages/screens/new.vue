@@ -30,6 +30,8 @@
 import ScreenResults from '~/components/messages/ScreenResults.vue';
 import AddressForm from '~/components/forms/AddressForm.vue';
 import GpsForm from '~/components/forms/GpsForm.vue';
+import Pusher from 'pusher-js';
+import { mapGetters } from 'vuex';
 
 export default {
   middleware: 'authenticated',
@@ -44,11 +46,23 @@ export default {
       result: null,
     }
   },
+  created () {
+    this.subscribe();
+  },
+  computed: {
+    ...mapGetters(['loggedInUser'])
+  },
   methods: {
     handleResults(result) {
       this.result = result;
-      console.log(result);
-    }
+    },
+    subscribe () {
+      let pusher = new Pusher('c6dcbff1545a17e778a7', { cluster: 'us2', forceTLS: true, authEndpoint: '/broadcasting/auth' })
+      pusher.subscribe('screen.reports.' + this.loggedInUser.id);
+      pusher.bind('reports.added', data => {
+        this.result = data.screen;
+      })
+    },
   }
 }
 </script>
