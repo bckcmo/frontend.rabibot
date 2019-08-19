@@ -4,6 +4,9 @@
   "description": "EJSCREEN made easy.",
   "author": "Brendan Corazzin",
   "private": true,
+  "engines": {
+    "node": "12.8.0"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
