@@ -19,8 +19,8 @@
         </v-card-title>
         <v-card-text>
           <p>RabiBot simplifies the EJ screen process. Simply enter the address or the GPS coordinates of the location you need to screen. No more messing with an overly complicated interface. One form and you're done!</p>
-          <p>Once the results are ready, you'll be given the option to send the screen reports to your email.</p>
-          <p>You can also save screens, add notes, and come back anytime to view them again.</p>
+          <p>Once the results are ready, an email with links to EJSCREEN reports will be sent to you.</p>
+          <p>Screens are saved to your account, you can add notes to screens, and you can come back anytime to view them again.</p>
           <p v-if="!isAuthenticated">Register today to get started!</p>
           <hr class="mt-4 mb-2">
           <v-card-actions v-if="!isAuthenticated">

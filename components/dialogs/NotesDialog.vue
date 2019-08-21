@@ -55,7 +55,12 @@
       }
     },
     mounted() {
-      this.fullAddress = `${this.item.address} ${this.item.city}, ${this.item.state} ${this.item.zip}`;
+      if(this.item.address) {
+        this.fullAddress = `${this.item.address} ${this.item.city}, ${this.item.state} ${this.item.zip}`;
+      } else {
+        this.fullAddress =  `${this.item.lat}, ${this.item.lng}`;
+      }
+
       this.notes = this.item.notes;
     }
   }
