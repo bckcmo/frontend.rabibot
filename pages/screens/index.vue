@@ -102,7 +102,11 @@ export default {
       }
     },
     formatLocation(item) {
-      return `${item.address} ${item.city}, ${item.state} ${item.zip}`;
+      if(item.address) {
+        return `${item.address} ${item.city}, ${item.state} ${item.zip}`;
+      } else {
+        return  `${item.lat}, ${item.lng}`;
+      }
     },
   },
   mounted() {
