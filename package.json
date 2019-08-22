@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "nuxt",
-    "build": "NUXT_ENV_NODE_ENV=production NUXT_ENV_BASE_URL=www.api.rabibot.bckcmo.com nuxt build",
+    "build": "NUXT_ENV_NODE_ENV=dev NUXT_ENV_BASE_URL=www.api.rabibot.bckcmo.com nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
