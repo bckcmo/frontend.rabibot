@@ -59,6 +59,10 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters(['isAuthenticated'])
-  }
+  },
+  mounted() {
+    console.log(process.env.base_url)
+    console.log(process.env.node_env)
+  },
 }
 </script>
