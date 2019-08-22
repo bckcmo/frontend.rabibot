@@ -61,8 +61,8 @@ export default {
     ...mapGetters(['isAuthenticated'])
   },
   mounted() {
-    console.log(process.env.base_url)
-    console.log(process.env.node_env)
+    console.log(process.env.BASE_URL)
+    console.log(process.env.NODE_ENV)
   },
 }
 </script>
