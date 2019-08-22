@@ -64,7 +64,7 @@ export default {
     }
   },
   axios: {
-    baseURL: process.env.NODE_ENV == 'production' ? 'www.api.rabitbot.bckcmo.com' : 'http://127.0.0.1:5000/api'
+    baseURL: process.env.NODE_ENV == 'production' ? 'http://www.api.rabitbot.bckcmo.com/api' : 'http://127.0.0.1:5000/api'
   },
 
   auth: {
